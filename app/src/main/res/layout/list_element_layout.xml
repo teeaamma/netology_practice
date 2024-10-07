@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_corners"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="3dp"
+    >
+
+    <TextView
+        android:id="@+id/game_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Время игры:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="2dp"/>
+
+    <TextView
+        android:id="@+id/game_hit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Количество попаданий:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/game_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="2dp"/>
+
+    <TextView
+        android:id="@+id/game_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Количество нажатий:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/game_hit"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="2dp"/>
+
+    <TextView
+        android:id="@+id/game_percent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Процент попаданий:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/game_count"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="2dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
