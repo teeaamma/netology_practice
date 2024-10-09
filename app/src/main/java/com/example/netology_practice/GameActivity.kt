@@ -7,6 +7,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Chronometer
 import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 
 class GameActivity : AppCompatActivity() {
     private lateinit var chronometer: Chronometer
@@ -25,14 +26,28 @@ class GameActivity : AppCompatActivity() {
         chronometer = findViewById(R.id.chronometer)
         chronometer.base = SystemClock.elapsedRealtime()
         chronometer.start()
+
+        val callback = object : OnBackPressedCallback(
+            true
+        ) {
+            override fun handleOnBackPressed() {
+                chronometer.stop()
+                val elapsedMillis = SystemClock.elapsedRealtime() - chronometer.base
+                val elapsedSeconds = (elapsedMillis / 1000).toInt()
+                val gameView = findViewById<GameView>(R.id.gameview)
+                gameView.SaveGameStats(elapsedSeconds)
+                finish()
+            }
+        }
+        onBackPressedDispatcher.addCallback(callback)
     }
 
-    override fun onStop() {
-        chronometer.stop()
-        val elapsedMillis = SystemClock.elapsedRealtime() - chronometer.base
-        val elapsedSeconds = (elapsedMillis / 1000).toInt()
-        val gameView = findViewById<GameView>(R.id.gameview)
-        gameView.SaveGameStats(elapsedSeconds)
-        super.onStop()
-    }
+//    override fun onStop() {
+//        chronometer.stop()
+//        val elapsedMillis = SystemClock.elapsedRealtime() - chronometer.base
+//        val elapsedSeconds = (elapsedMillis / 1000).toInt()
+//        val gameView = findViewById<GameView>(R.id.gameview)
+//        gameView.SaveGameStats(elapsedSeconds)
+//        super.onStop()
+//    }
 }

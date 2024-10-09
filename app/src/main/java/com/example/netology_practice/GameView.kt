@@ -12,7 +12,7 @@ import android.view.SurfaceView
 import kotlin.concurrent.thread
 
 class GameView(context: Context, attributes: AttributeSet,) : SurfaceView(context, attributes), SurfaceHolder.Callback {
-    private val thread: GameThread
+    private var thread: GameThread?
     private val mice : MutableList<Mouse> = mutableListOf()
     private var mouseSpeed: Int = 10
     private lateinit var gameStatsDao: GameStatsDao
@@ -21,6 +21,7 @@ class GameView(context: Context, attributes: AttributeSet,) : SurfaceView(contex
     init {
         holder.addCallback(this)
         thread = GameThread(holder, this)
+        isFocusable = true
     }
 
     fun setMouseProperties(speed: Int, count: Int, application: Application) {
@@ -34,8 +35,13 @@ class GameView(context: Context, attributes: AttributeSet,) : SurfaceView(contex
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        thread.setRunning(true)
-        thread.start()
+        if (thread == null){
+            holder.addCallback(this)
+            thread = GameThread(holder, this)
+            isFocusable = true
+        }
+        thread!!.setRunning(true)
+        thread!!.start()
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -45,14 +51,15 @@ class GameView(context: Context, attributes: AttributeSet,) : SurfaceView(contex
         var retry = true
         while (retry) {
             try {
-                thread.setRunning(false)
-                thread.join()
+                thread?.setRunning(false)
+                thread?.join()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
             retry = false
         }
+        thread = null
     }
 
     fun update() {
